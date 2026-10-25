@@ -38,14 +38,19 @@ static void check_push_packet(git_oid_t local_type, const char *advertised_forma
 	git_repository_new_options opts = GIT_REPOSITORY_NEW_OPTIONS_INIT;
 	git_remote remote = { 0 };
 	git_push push = { 0 };
-	push_spec spec = { 0 };
-	transport_smart transport = { 0 };
-	struct push_stream capture = { 0 };
-	struct push_subtransport subtransport = { 0 };
+	push_spec spec;
+	transport_smart transport;
+	struct push_stream capture;
+	struct push_subtransport subtransport;
 	const char *name = "refs/heads/main";
 	const char *sent, *capabilities;
 	size_t packet_len, hexlen;
 	char prefix[5];
+
+	memset(&spec, 0, sizeof(spec));
+	memset(&transport, 0, sizeof(transport));
+	memset(&capture, 0, sizeof(capture));
+	memset(&subtransport, 0, sizeof(subtransport));
 
 	opts.oid_type = local_type;
 	cl_git_pass(git_repository_new_ext(&repo, &opts));
